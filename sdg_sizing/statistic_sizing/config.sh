@@ -6,11 +6,11 @@ SCRIPT_PATH='./sdg_sizing/statistic_sizing/statistics_data_benchmark_sdg.py'
 OUTPUT_BASE_DIR='/replicator_data/statistic_sizing'
 
 # Parameters:
-NUM_FRAMES=1
+NUM_FRAMES=1000
 NUM_CAMERAS=2
 NUM_GPUS=1
-ASSET_COUNT=2
-SUBFRAMES=1
+ASSET_COUNT=3
+SUBFRAMES=128
 ANNOTATORS='all'
 # VALID_ANNOTATORS = {"rgb",
 #     "bounding_box_2d_tight",

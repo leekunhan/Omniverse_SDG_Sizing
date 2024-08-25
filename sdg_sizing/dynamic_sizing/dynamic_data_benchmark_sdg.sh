@@ -20,6 +20,7 @@ echo $PWD
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
 --headless \
+--delete-data-when-done \
 --print-results \
 --backend-type $BACKEND_TYPE \
 --output-dir $OUTPUT_DIR_1080P \
@@ -38,6 +39,7 @@ echo $PWD
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
 --headless \
+--delete-data-when-done \
 --print-results \
 --backend-type $BACKEND_TYPE \
 --output-dir $OUTPUT_DIR_2K \
@@ -56,6 +58,7 @@ echo $PWD
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
 --headless \
+--delete-data-when-done \
 --print-results \
 --backend-type $BACKEND_TYPE \
 --output-dir $OUTPUT_DIR_4K \

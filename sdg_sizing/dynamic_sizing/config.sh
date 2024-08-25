@@ -6,7 +6,7 @@ SCRIPT_PATH='./sdg_sizing/dynamic_sizing/dynamic_data_benchmark_sdg.py'
 OUTPUT_BASE_DIR='/replicator_data/dynamic_sizing'
 
 # Parameters:
-NUM_FRAMES=1
+NUM_FRAMES=1000
 NUM_CAMERAS=2
 NUM_GPUS=1
 ASSET_COUNT=3

@@ -15,6 +15,7 @@ echo $PWD
 --num-cameras $NUM_CAMERAS \
 --num-gpus $NUM_GPUS \
 --resolution $RESOLUTION_1080P \
+--benchmark-name $BENCHMARK_NAME_1080p \
 --asset-count $ASSET_COUNT \
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
@@ -26,35 +27,37 @@ echo $PWD
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_1080P
 
 # 2k resolution
-# ./python.sh $SIMULATION_PATH$SCRIPT_PATH \
-# --allow-root \
-# --num-frames $NUM_FRAMES \
-# --num-cameras $NUM_CAMERAS \
-# --num-gpus $NUM_GPUS \
-# --resolution $RESOLUTION_2K \
-# --asset-count $ASSET_COUNT \
-# --annotators $ANNOTATORS \
-# --disable-viewport-rendering \
-# --headless \
-# --print-results \
-# --backend-type $BACKEND_TYPE \
-# --output-dir $OUTPUT_DIR_2K \
-# --subframes $SUBFRAMES \
-# --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_2K
+./python.sh $SIMULATION_PATH$SCRIPT_PATH \
+--allow-root \
+--num-frames $NUM_FRAMES \
+--num-cameras $NUM_CAMERAS \
+--num-gpus $NUM_GPUS \
+--resolution $RESOLUTION_2K \
+--benchmark-name $BENCHMARK_NAME_2K \
+--asset-count $ASSET_COUNT \
+--annotators $ANNOTATORS \
+--disable-viewport-rendering \
+--headless \
+--print-results \
+--backend-type $BACKEND_TYPE \
+--output-dir $OUTPUT_DIR_2K \
+--subframes $SUBFRAMES \
+--/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_2K
 
 # 4k resolution
-# ./python.sh $SIMULATION_PATH$SCRIPT_PATH \
-# --allow-root \
-# --num-frames $NUM_FRAMES \
-# --num-cameras $NUM_CAMERAS \
-# --num-gpus $NUM_GPUS \
-# --resolution $RESOLUTION_4K \
-# --asset-count $ASSET_COUNT \
-# --annotators $ANNOTATORS \
-# --disable-viewport-rendering \
-# --headless \
-# --print-results \
-# --backend-type $BACKEND_TYPE \
-# --output-dir $OUTPUT_DIR_4K \
-# --subframes $SUBFRAMES \
-# --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K
+./python.sh $SIMULATION_PATH$SCRIPT_PATH \
+--allow-root \
+--num-frames $NUM_FRAMES \
+--num-cameras $NUM_CAMERAS \
+--num-gpus $NUM_GPUS \
+--resolution $RESOLUTION_4K \
+--benchmark-name $BENCHMARK_NAME_4K \
+--asset-count $ASSET_COUNT \
+--annotators $ANNOTATORS \
+--disable-viewport-rendering \
+--headless \
+--print-results \
+--backend-type $BACKEND_TYPE \
+--output-dir $OUTPUT_DIR_4K \
+--subframes $SUBFRAMES \
+--/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K

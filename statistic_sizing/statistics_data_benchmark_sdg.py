@@ -52,6 +52,7 @@ parser.add_argument("--skip-write", action="store_true", help="Skip writing anno
 parser.add_argument("--env-url", default=ENV_URL, help="Path to the environment url, default None")
 parser.add_argument("--output-dir", type=str, default=os.getcwd() + "/_palletjack_data", help="Location where data will be output")
 parser.add_argument("--subframes", type=int, default=512, help="Number of subframes to run the benchmark for")
+parser.add_argument("--benchmark-name", type=str, default="SDG", help="Name of the benchmark")
 
 args, unknown = parser.parse_known_args()
 
@@ -68,6 +69,7 @@ skip_write = args.skip_write
 env_url = args.env_url
 output_dir = args.output_dir
 subframes = args.subframes
+benchmark_name = args.benchmark_name
 
 if "all" in args.annotators:
     annotators_kwargs = {annotator: True for annotator in VALID_ANNOTATORS}
@@ -88,6 +90,7 @@ print(f"\tskip_write: {skip_write}")
 print(f"\tenv_url: {env_url}")
 print(f"\toutput_dir: {output_dir}")
 print(f"\tsubframes: {subframes}")
+print(f"\tbenchmark_name: {benchmark_name}")
 
 import shutil
 import time
@@ -113,7 +116,7 @@ from omni.isaac.benchmark.services import BaseIsaacBenchmark
 
 # Create the benchmark
 benchmark = BaseIsaacBenchmark(
-    benchmark_name="benchmark_sdg",
+    benchmark_name=benchmark_name,
     workflow_metadata={
         "metadata": [
             {"name": "num_frames", "data": num_frames},

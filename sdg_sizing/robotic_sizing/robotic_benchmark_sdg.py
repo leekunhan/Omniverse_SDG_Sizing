@@ -30,9 +30,10 @@ VALID_ANNOTATORS = {
 
 ENV_URL = "/Isaac/Environments/Simple_Warehouse/full_warehouse.usd"
 
+REPLICATOR_GLOBAL_SEED = 11
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--num-amrs", type=int, default=1, help="Number of robots")
-parser.add_argument("--num-robotic-arms", type=int, default=1, help="Number of robots")
 parser.add_argument("--num-gpus", type=int, default=1, help="Number of GPUs on machine.")
 parser.add_argument("--num-frames", type=int, default=600, help="Number of frames to run benchmark for")
 parser.add_argument("--num-cameras", type=int, default=1, help="Number of cameras")
@@ -63,7 +64,6 @@ args, unknown = parser.parse_known_args()
 
 
 n_amrs = args.num_amrs
-n_robotic_arms = args.num_robotic_arms
 n_gpu = args.num_gpus
 n_frames = args.num_frames
 num_cameras = args.num_cameras
@@ -84,7 +84,6 @@ else:
 
 print(f"[SDG Benchmark] Running SDG Benchmark with:")
 print(f"\tNumber of AMRs: {n_amrs}")
-print(f"\tNumber of Robotic Arms: {n_robotic_arms}")
 print(f"\tNumber of GPUs: {n_gpu}")
 print(f"\tNumber of Frames: {n_frames}")
 print(f"\tNumber of Cameras: {num_cameras}")
@@ -123,7 +122,6 @@ benchmark = BaseIsaacBenchmark(
     workflow_metadata={
         "metadata": [
             {"name": "num_robots", "data": n_amrs},
-            {"name": "num_robotic_arms", "data": n_robotic_arms},
             {"name": "num_gpus", "data": n_gpu},
             {"name": "num_frames", "data": n_frames},
             {"name": "num_cameras", "data": num_cameras},
@@ -144,13 +142,24 @@ benchmark = BaseIsaacBenchmark(
 benchmark.set_phase("loading", start_recording_frametime=False, start_recording_runtime=True)
 
 amr_path = "/Isaac/Robots/Carter/nova_carter_sensors.usd"
-robotic_arm_path = "/ur10"
 
 scene_path = env_url
 benchmark.fully_load_stage(benchmark.assets_root_path + scene_path)
 stage = omni.usd.get_context().get_stage()
 PhysicsContext(physics_dt=1.0 / 60.0)
 set_camera_view(eye=[-6, -15.5, 6.5], target=[-6, 10.5, -1], camera_prim_path="/OmniverseKit_Persp")
+
+# Render Camera
+cameras = []
+for i in range(num_cameras):
+    cameras.append(rep.create.camera(name=f"cam_{i}"))
+
+render_products = []
+for i, cam in enumerate(cameras):
+    render_products.append(rep.create.render_product(cam, (width, height), name=f"rp_{i}"))
+
+# Create Groups
+cameras = rep.create.group(cameras)
 
 robots = []
 for i in range(n_amrs):
@@ -180,7 +189,7 @@ for robot in robots:
     robot.initialize()
     # start the robot rotating in place so not to run into each
     robot.apply_wheel_actions(
-        ArticulationAction(joint_positions=None, joint_efforts=None, joint_velocities=5 * np.array([0, 1]))
+        ArticulationAction(joint_positions=None, joint_efforts=None, joint_velocities=10 * np.array([0, 1]))
     )
 
 omni.kit.app.get_app().update()

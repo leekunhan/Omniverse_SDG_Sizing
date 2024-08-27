@@ -50,7 +50,7 @@ parser.add_argument(
 )
 parser.add_argument("--skip-write", action="store_true", help="Skip writing annotator data to disk")
 parser.add_argument("--env-url", default=ENV_URL, help="Path to the environment url, default None")
-parser.add_argument("--output-dir", type=str, default=os.getcwd() + "/_palletjack_data", help="Location where data will be output")
+parser.add_argument("--output-dir", type=str, default=os.getcwd() + "/_statisitcs_data", help="Location where data will be output")
 parser.add_argument("--subframes", type=int, default=512, help="Number of subframes to run the benchmark for")
 parser.add_argument("--benchmark-name", type=str, default="SDG", help="Name of the benchmark")
 
@@ -70,7 +70,6 @@ env_url = args.env_url
 output_dir = args.output_dir
 subframes = args.subframes
 benchmark_name = args.benchmark_name
-
 if "all" in args.annotators:
     annotators_kwargs = {annotator: True for annotator in VALID_ANNOTATORS}
 else:

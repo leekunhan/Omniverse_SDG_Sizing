@@ -57,7 +57,7 @@ benchmark = BaseIsaacBenchmark(
 )
 benchmark.set_phase("loading", start_recording_frametime=False, start_recording_runtime=True)
 
-robot_path = "/Isaac/Robots/Carter/nova_carter_sensors.usd"
+amr_path = "/Isaac/Robots/Carter/nova_carter_sensors.usd"
 scene_path = "/Isaac/Environments/Simple_Warehouse/full_warehouse.usd"
 benchmark.fully_load_stage(benchmark.assets_root_path + scene_path)
 stage = omni.usd.get_context().get_stage()
@@ -67,7 +67,7 @@ set_camera_view(eye=[-6, -15.5, 6.5], target=[-6, 10.5, -1], camera_prim_path="/
 robots = []
 for i in range(n_robot):
     robot_prim_path = "/Robots/Robot_" + str(i)
-    robot_usd_path = benchmark.assets_root_path + robot_path
+    robot_usd_path = benchmark.assets_root_path + amr_path
     # position the robot
     MAX_IN_LINE = 10
     robot_position = np.array([-2 * (i % MAX_IN_LINE), -2 * np.floor(i / MAX_IN_LINE), 0])

@@ -8,25 +8,80 @@
 #
 
 import argparse
+import os
+
+VALID_ANNOTATORS = {
+    "rgb",
+    "bounding_box_2d_tight",
+    "bounding_box_2d_loose",
+    "semantic_segmentation",
+    "instance_id_segmentation",
+    "instance_segmentation",
+    "distance_to_camera",
+    "distance_to_image_plane",
+    "bounding_box_3d",
+    "occlusion",
+    "normals",
+    "motion_vectors",
+    "camera_params",
+    "pointcloud",
+    "skeleton_data",
+}
+
+ENV_URL = "/Isaac/Environments/Simple_Warehouse/full_warehouse.usd"
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--num-robots", type=int, default=1, help="Number of robots")
+parser.add_argument("--num-amrs", type=int, default=1, help="Number of robots")
+parser.add_argument("--num-robotic-arms", type=int, default=1, help="Number of robots")
 parser.add_argument("--num-gpus", type=int, default=1, help="Number of GPUs on machine.")
 parser.add_argument("--num-frames", type=int, default=600, help="Number of frames to run benchmark for")
+parser.add_argument("--num-cameras", type=int, default=1, help="Number of cameras")
+parser.add_argument("--headless", action="store_true", help="Run in headless mode")
+parser.add_argument(
+    "--annotators",
+    nargs="+",
+    default=["rgb"],
+    choices=list(VALID_ANNOTATORS) + ["all"],
+    help="List of annotators to enable, separated by space. Use 'all' to select all available.",
+)
 parser.add_argument(
     "--backend-type",
     default="OsmoKPIFile",
     choices=["LocalLogMetrics", "JSONFileMetrics", "OsmoKPIFile"],
     help="Benchmarking backend, defaults",
 )
-parser.add_argument("--headless", action="store_true", help="Run in headless mode")
+parser.add_argument("--delete-data-when-done", action="store_true", help="Delete local data after benchmarking")
+parser.add_argument("--resolution", nargs=2, type=int, default=[1280, 720], help="Camera resolution")
+parser.add_argument("--output-dir", type=str, default=os.getcwd() + "/_robotic_data", help="Location where data will be output")
+parser.add_argument("--subframes", type=int, default=512, help="Number of subframes to run the benchmark for")
+parser.add_argument("--benchmark-name", type=str, default="SDG", help="Name of the benchmark")
+parser.add_argument("--print-results", action="store_true", help="Print results in terminal")
+parser.add_argument("--env-url", default=ENV_URL, help="Path to the environment url, default None")
 
 args, unknown = parser.parse_known_args()
 
-n_robot = args.num_robots
+
+n_amrs = args.num_amrs
+n_robotic_arms = args.num_robotic_arms
 n_gpu = args.num_gpus
 n_frames = args.num_frames
+num_cameras = args.num_cameras
 headless = args.headless
+delete_data_when_done = args.delete_data_when_done
+width, height = args.resolution[0], args.resolution[1]
+output_dir = args.output_dir
+subframes = args.subframes
+benchmark_name = args.benchmark_name
+print_results = args.print_results
+env_url = args.env_url
+
+if "all" in args.annotators:
+    annotators_kwargs = {annotator: True for annotator in VALID_ANNOTATORS}
+else:
+    annotators_kwargs = {annotator: True for annotator in args.annotators if annotator in VALID_ANNOTATORS}
+
+
+
 
 import numpy as np
 from isaacsim import SimulationApp
@@ -49,7 +104,7 @@ benchmark = BaseIsaacBenchmark(
     benchmark_name="benchmark_robots_nova_carter",
     workflow_metadata={
         "metadata": [
-            {"name": "num_robots", "data": n_robot},
+            {"name": "num_robots", "data": n_amrs},
             {"name": "num_gpus", "data": n_gpu},
         ]
     },
@@ -57,17 +112,19 @@ benchmark = BaseIsaacBenchmark(
 )
 benchmark.set_phase("loading", start_recording_frametime=False, start_recording_runtime=True)
 
-robot_path = "/Isaac/Robots/Carter/nova_carter_sensors.usd"
-scene_path = "/Isaac/Environments/Simple_Warehouse/full_warehouse.usd"
+amr_path = "/Isaac/Robots/Carter/nova_carter_sensors.usd"
+robotic_arm_path = "/ur10"
+
+scene_path = env_url
 benchmark.fully_load_stage(benchmark.assets_root_path + scene_path)
 stage = omni.usd.get_context().get_stage()
 PhysicsContext(physics_dt=1.0 / 60.0)
 set_camera_view(eye=[-6, -15.5, 6.5], target=[-6, 10.5, -1], camera_prim_path="/OmniverseKit_Persp")
 
 robots = []
-for i in range(n_robot):
+for i in range(n_amrs):
     robot_prim_path = "/Robots/Robot_" + str(i)
-    robot_usd_path = benchmark.assets_root_path + robot_path
+    robot_usd_path = benchmark.assets_root_path + amr_path
     # position the robot
     MAX_IN_LINE = 10
     robot_position = np.array([-2 * (i % MAX_IN_LINE), -2 * np.floor(i / MAX_IN_LINE), 0])

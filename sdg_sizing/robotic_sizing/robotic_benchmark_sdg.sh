@@ -16,7 +16,6 @@ echo $PWD
 --num-gpus $NUM_GPUS \
 --num-frames $NUM_FRAMES \
 --num-cameras $NUM_CAMERAS \
---headless \
 --annotators $ANNOTATORS \
 --backend-type $BACKEND_TYPE \
 --disable-viewport-rendering \
@@ -25,7 +24,7 @@ echo $PWD
 --subframes $SUBFRAMES \
 --benchmark-name $BENCHMARK_NAME_1080p \
 --print-results \
-
+--/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_1080P
 
 
 # 2k resolution

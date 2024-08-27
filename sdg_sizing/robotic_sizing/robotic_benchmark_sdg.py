@@ -99,8 +99,6 @@ print(f"\tPrint Results: {print_results}")
 print(f"\tEnvironment URL: {env_url}")
 print(f"\tAnnotators: {annotators_kwargs.keys()}")
 
-
-
 import shutil
 import numpy as np
 from isaacsim import SimulationApp

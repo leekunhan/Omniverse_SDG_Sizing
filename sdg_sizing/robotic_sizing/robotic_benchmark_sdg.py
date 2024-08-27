@@ -51,6 +51,7 @@ parser.add_argument(
     choices=["LocalLogMetrics", "JSONFileMetrics", "OsmoKPIFile"],
     help="Benchmarking backend, defaults",
 )
+parser.add_argument("--skip-write", action="store_true", help="Skip writing annotator data to disk")
 parser.add_argument("--disable-viewport-rendering", action="store_true", help="Disable viewport rendering")
 parser.add_argument("--delete-data-when-done", action="store_true", help="Delete local data after benchmarking")
 parser.add_argument("--resolution", nargs=2, type=int, default=[1280, 720], help="Camera resolution")
@@ -65,7 +66,7 @@ args, unknown = parser.parse_known_args()
 
 n_amrs = args.num_amrs
 n_gpu = args.num_gpus
-n_frames = args.num_frames
+num_frames = args.num_frames
 num_cameras = args.num_cameras
 headless = args.headless
 disable_viewport_rendering = args.disable_viewport_rendering
@@ -76,6 +77,7 @@ subframes = args.subframes
 benchmark_name = args.benchmark_name
 print_results = args.print_results
 env_url = args.env_url
+skip_write = args.skip_write
 
 if "all" in args.annotators:
     annotators_kwargs = {annotator: True for annotator in VALID_ANNOTATORS}
@@ -85,7 +87,7 @@ else:
 print(f"[SDG Benchmark] Running SDG Benchmark with:")
 print(f"\tNumber of AMRs: {n_amrs}")
 print(f"\tNumber of GPUs: {n_gpu}")
-print(f"\tNumber of Frames: {n_frames}")
+print(f"\tNumber of Frames: {num_frames}")
 print(f"\tNumber of Cameras: {num_cameras}")
 print(f"\tHeadless: {headless}")
 print(f"\tDisable Viewport Rendering: {disable_viewport_rendering}")
@@ -123,7 +125,7 @@ benchmark = BaseIsaacBenchmark(
         "metadata": [
             {"name": "num_robots", "data": n_amrs},
             {"name": "num_gpus", "data": n_gpu},
-            {"name": "num_frames", "data": n_frames},
+            {"name": "num_frames", "data": num_frames},
             {"name": "num_cameras", "data": num_cameras},
             {"name": "headless", "data": headless},
             {"name": "disable_viewport_rendering", "data": disable_viewport_rendering},
@@ -196,14 +198,51 @@ omni.kit.app.get_app().update()
 omni.kit.app.get_app().update()
 
 benchmark.store_measurements()
-# perform benchmark
-benchmark.set_phase("benchmark")
 
-for _ in range(1, n_frames):
+# Writer
+if skip_write:
+    print("[SDG Benchmark] Skipping writing to disk, attaching annotators to render products..")
+    for annot_type, enabled in annotators_kwargs.items():
+        if enabled:
+            annot = rep.AnnotatorRegistry.get_annotator(annot_type)
+            for rp in render_products:
+                annot.attach(rp)
+
+elif output_dir is not None:
+    writer = rep.writers.get("BasicWriter")
+    output_directory = output_dir
+    print(f"[SDG Benchmark] Output directory: {output_directory}")
+    writer.initialize(output_dir=output_directory, **annotators_kwargs)
+    writer.attach(render_products)
+
+else:
+    writer = rep.writers.get("BasicWriter")
+    output_directory = (
+        os.getcwd()
+        + "/replicator_data"
+        + f"/_out_sdg_benchmark_{num_frames}_frames_{num_cameras}_cameras_{len(annotators_kwargs)}_annotators"
+    )
+    print(f"[SDG Benchmark] Output directory: {output_directory}")
+    writer.initialize(output_dir=output_directory, **annotators_kwargs)
+    writer.attach(render_products)
+
+with rep.trigger.on_frame(rt_subframes = subframes):
+    with cameras:
+        rep.modify.pose(
+            position=rep.distribution.uniform((-9.2, -11.8, 0.4), (7.2, 15.8, 4)),
+            look_at=(0, 0, 0),
+        )
     omni.kit.app.get_app().update()
+# for _ in range(1, num_frames):
+#     omni.kit.app.get_app().update()
+# perform benchmark
 
+for _ in range(10):
+    omni.kit.app.get_app().update()
+benchmark.store_measurements()
+benchmark.set_phase("benchmark")
+rep.orchestrator.run_until_complete(num_frames=num_frames)
 benchmark.store_measurements()
 benchmark.stop()
-
 timeline.stop()
 simulation_app.close()

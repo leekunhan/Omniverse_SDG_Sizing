@@ -50,11 +50,12 @@ parser.add_argument(
     choices=["LocalLogMetrics", "JSONFileMetrics", "OsmoKPIFile"],
     help="Benchmarking backend, defaults",
 )
+parser.add_argument("--disable-viewport-rendering", action="store_true", help="Disable viewport rendering")
 parser.add_argument("--delete-data-when-done", action="store_true", help="Delete local data after benchmarking")
 parser.add_argument("--resolution", nargs=2, type=int, default=[1280, 720], help="Camera resolution")
 parser.add_argument("--output-dir", type=str, default=os.getcwd() + "/_robotic_data", help="Location where data will be output")
 parser.add_argument("--subframes", type=int, default=512, help="Number of subframes to run the benchmark for")
-parser.add_argument("--benchmark-name", type=str, default="SDG", help="Name of the benchmark")
+parser.add_argument("--benchmark-name", type=str, default="Robotic_SDG", help="Name of the benchmark")
 parser.add_argument("--print-results", action="store_true", help="Print results in terminal")
 parser.add_argument("--env-url", default=ENV_URL, help="Path to the environment url, default None")
 
@@ -67,6 +68,7 @@ n_gpu = args.num_gpus
 n_frames = args.num_frames
 num_cameras = args.num_cameras
 headless = args.headless
+disable_viewport_rendering = args.disable_viewport_rendering
 delete_data_when_done = args.delete_data_when_done
 width, height = args.resolution[0], args.resolution[1]
 output_dir = args.output_dir
@@ -80,15 +82,33 @@ if "all" in args.annotators:
 else:
     annotators_kwargs = {annotator: True for annotator in args.annotators if annotator in VALID_ANNOTATORS}
 
+print(f"[SDG Benchmark] Running SDG Benchmark with:")
+print(f"\tNumber of AMRs: {n_amrs}")
+print(f"\tNumber of Robotic Arms: {n_robotic_arms}")
+print(f"\tNumber of GPUs: {n_gpu}")
+print(f"\tNumber of Frames: {n_frames}")
+print(f"\tNumber of Cameras: {num_cameras}")
+print(f"\tHeadless: {headless}")
+print(f"\tDisable Viewport Rendering: {disable_viewport_rendering}")
+print(f"\tDelete Data When Done: {delete_data_when_done}")
+print(f"\tResolution: {width}x{height}")
+print(f"\tOutput Directory: {output_dir}")
+print(f"\tSubframes: {subframes}")
+print(f"\tBenchmark Name: {benchmark_name}")
+print(f"\tPrint Results: {print_results}")
+print(f"\tEnvironment URL: {env_url}")
+print(f"\tAnnotators: {annotators_kwargs.keys()}")
 
 
 
+import shutil
 import numpy as np
 from isaacsim import SimulationApp
 
 simulation_app = SimulationApp({"headless": headless, "max_gpu_count": n_gpu})
 
 import omni
+import omni.replicator.core as rep
 import omni.kit.test
 from omni.isaac.core import PhysicsContext
 from omni.isaac.core.utils.extensions import enable_extension
@@ -101,11 +121,24 @@ from omni.isaac.benchmark.services import BaseIsaacBenchmark
 
 # Create the benchmark
 benchmark = BaseIsaacBenchmark(
-    benchmark_name="benchmark_robots_nova_carter",
+    benchmark_name=benchmark_name,
     workflow_metadata={
         "metadata": [
             {"name": "num_robots", "data": n_amrs},
+            {"name": "num_robotic_arms", "data": n_robotic_arms},
             {"name": "num_gpus", "data": n_gpu},
+            {"name": "num_frames", "data": n_frames},
+            {"name": "num_cameras", "data": num_cameras},
+            {"name": "headless", "data": headless},
+            {"name": "disable_viewport_rendering", "data": disable_viewport_rendering},
+            {"name": "delete_data_when_done", "data": delete_data_when_done},
+            {"name": "resolution", "data": f"{width}x{height}"},
+            {"name": "output_dir", "data": output_dir},
+            {"name": "subframes", "data": subframes},
+            {"name": "benchmark_name", "data": benchmark_name},
+            {"name": "print_results", "data": print_results},
+            {"name": "env_url", "data": env_url},
+            {"name": "annotators", "data": annotators_kwargs.keys()},
         ]
     },
     backend_type=args.backend_type,

@@ -2,8 +2,8 @@
 
 # Path where Isaac Sim is installed which contains the python.sh script
 ISAAC_SIM_PATH='/isaac-sim'
-SCRIPT_PATH='./sdg_sizing/dynamic_sizing/dynamic_data_benchmark_sdg.py'
-OUTPUT_BASE_DIR='/replicator_data/dynamic_sizing'
+SCRIPT_PATH='./sdg_sizing/robotic_sizing/robotic_benchmark_sdg.py'
+OUTPUT_BASE_DIR='/replicator_data/robotic_sizing'
 
 # Parameters:
 NUM_FRAMES=10
@@ -12,6 +12,8 @@ NUM_GPUS=1
 ASSET_COUNT=3
 SUBFRAMES=32
 ANNOTATORS='rgb' 
+NUM_AMR=1
+NUM_ROBOTIC_ARM=1
 # VALID_ANNOTATORS = {"rgb",
 #     "bounding_box_2d_tight",
 #     "bounding_box_2d_loose",

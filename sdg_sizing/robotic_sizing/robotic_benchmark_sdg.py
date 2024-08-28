@@ -84,7 +84,7 @@ if "all" in args.annotators:
 else:
     annotators_kwargs = {annotator: True for annotator in args.annotators if annotator in VALID_ANNOTATORS}
 
-print(f"[SDG Benchmark] Running SDG Benchmark with:")
+print("[SDG Benchmark] Running SDG Benchmark with:")
 print(f"\tNumber of AMRs: {n_amrs}")
 print(f"\tNumber of GPUs: {n_gpu}")
 print(f"\tNumber of Frames: {num_frames}")

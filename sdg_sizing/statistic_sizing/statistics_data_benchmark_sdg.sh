@@ -15,7 +15,7 @@ echo $PWD
 --num-cameras $NUM_CAMERAS \
 --num-gpus $NUM_GPUS \
 --resolution $RESOLUTION_1080P \
---benchmark-name $BENCHMARK_NAME_1080p$128FRAME \
+--benchmark-name $BENCHMARK_NAME_1080p$FRAME128 \
 --asset-count $ASSET_COUNT \
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \

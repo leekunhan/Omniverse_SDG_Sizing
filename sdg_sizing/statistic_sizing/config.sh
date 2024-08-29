@@ -6,28 +6,12 @@ SCRIPT_PATH='./sdg_sizing/statistic_sizing/statistics_data_benchmark_sdg.py'
 OUTPUT_BASE_DIR='/replicator_data/statistic_sizing'
 
 # Parameters:
-NUM_FRAMES=1000
+NUM_FRAMES=300
 NUM_CAMERAS=2
 NUM_GPUS=1
 ASSET_COUNT=3
 SUBFRAMES=128
 ANNOTATORS='all'
-# VALID_ANNOTATORS = {"rgb",
-#     "bounding_box_2d_tight",
-#     "bounding_box_2d_loose",
-#     "semantic_segmentation",
-#     "instance_id_segmentation",
-#     "instance_segmentation",
-#     "distance_to_camera",
-#     "distance_to_image_plane",
-#     "bounding_box_3d",
-#     "occlusion",
-#     "normals",
-#     "motion_vectors",
-#     "camera_params",
-#     "pointcloud",
-#     "skeleton_data",
-# }
 BACKEND_TYPE='JSONFileMetrics'
 
 # 1080p resolution
@@ -48,3 +32,12 @@ RESOLUTION_4K="3840 2160"
 OUTPUT_DIR_4K="$ISAAC_SIM_PATH$OUTPUT_BASE_DIR/4k"
 MATRICS_OUTPUT_FOLDER_4K='/isaac-sim/replicator_data/statistic_sizing/'
 BENCHMARK_NAME_4K="Statistics_Data_Benchmark_SDG_4k"
+
+
+128FRAME="128frame"
+64FRAME="64frame"
+32FRAME="32frame"
+1FRAME="1frame"
+1ANNOTATOR="1ANNOTATOR"
+1ASSSET="1ASSET"
+2ASSETS="2ASSETS"

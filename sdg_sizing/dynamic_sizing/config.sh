@@ -12,22 +12,6 @@ NUM_GPUS=1
 ASSET_COUNT=3
 SUBFRAMES=128
 ANNOTATORS='all' 
-# VALID_ANNOTATORS = {"rgb",
-#     "bounding_box_2d_tight",
-#     "bounding_box_2d_loose",
-#     "semantic_segmentation",
-#     "instance_id_segmentation",
-#     "instance_segmentation",
-#     "distance_to_camera",
-#     "distance_to_image_plane",
-#     "bounding_box_3d",
-#     "occlusion",
-#     "normals",
-#     "motion_vectors",
-#     "camera_params",
-#     "pointcloud",
-#     "skeleton_data",
-# }
 BACKEND_TYPE='JSONFileMetrics'
 
 # 1080p resolution
@@ -47,3 +31,12 @@ RESOLUTION_4K="3840 2160"
 OUTPUT_DIR_4K="$ISAAC_SIM_PATH$OUTPUT_BASE_DIR/4k"
 MATRICS_OUTPUT_FOLDER_4K='/isaac-sim/replicator_data/dynamic_sizing/'
 BENCHMARK_NAME_4K="Dynamic_Data_Benchmark_SDG_4k"
+
+# Parameter for the benchmark name
+FRAME128="128frame"
+FRAME64="64frame"
+FRAME32="32frame"
+FRAME1="1frame"
+ANNOTATOR1="1ANNOTATOR"
+ASSSET1="1ASSET"
+ASSETS2="2ASSETS"

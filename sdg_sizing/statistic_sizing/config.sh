@@ -33,7 +33,7 @@ OUTPUT_DIR_4K="$ISAAC_SIM_PATH$OUTPUT_BASE_DIR/4k"
 MATRICS_OUTPUT_FOLDER_4K='/isaac-sim/replicator_data/statistic_sizing/'
 BENCHMARK_NAME_4K="Statistics_Data_Benchmark_SDG_4k"
 
-
+# Parameter for the benchmark name
 FRAME128="128frame"
 FRAME64="64frame"
 FRAME32="32frame"

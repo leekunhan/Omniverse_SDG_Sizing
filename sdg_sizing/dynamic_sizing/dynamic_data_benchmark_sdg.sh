@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /isaac-sim/sdg_sizing/statistic_sizing/config.sh
+source /isaac-sim/sdg_sizing/dynamic_sizing/config.sh
 
 echo "Starting Data Generation"  
 

@@ -40,7 +40,7 @@ echo $PWD
 --disable-viewport-rendering \
 --print-results \
 --backend-type $BACKEND_TYPE \
---output-dir $OUTPUT_DIR_4K$NAME1 \
+--output-dir $OUTPUT_DIR_4K/1frame \
 --subframes 1 \
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K
 
@@ -58,7 +58,7 @@ echo $PWD
 --disable-viewport-rendering \
 --print-results \
 --backend-type $BACKEND_TYPE \
---output-dir $OUTPUT_DIR_4K$NAME32 \
+--output-dir $OUTPUT_DIR_4K/32frame \
 --subframes 32 \
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K
 
@@ -76,7 +76,7 @@ echo $PWD
 --disable-viewport-rendering \
 --print-results \
 --backend-type $BACKEND_TYPE \
---output-dir $OUTPUT_DIR_4K$NAME64 \
+--output-dir $OUTPUT_DIR_4K/64frame \
 --subframes 64 \
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K
 
@@ -94,6 +94,6 @@ echo $PWD
 --disable-viewport-rendering \
 --print-results \
 --backend-type $BACKEND_TYPE \
---output-dir $OUTPUT_DIR_4K$NAME128 \
+--output-dir $OUTPUT_DIR_4K/128frame \
 --subframes 128 \
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K

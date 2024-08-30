@@ -23,6 +23,7 @@ echo $PWD
 --backend-type $BACKEND_TYPE \
 --output-dir $OUTPUT_DIR_4K \
 --subframes $SUBFRAMES \
+--headless \
 --/exts/omni.isaac.benchmark.services/metrics/metrics_output_folder=$MATRICS_OUTPUT_FOLDER_4K
 
 # 4k resolution
@@ -35,6 +36,7 @@ echo $PWD
 --benchmark-name $BENCHMARK_NAME_4K \
 --asset-count $ASSET_COUNT \
 --annotators $ANNOTATORS \
+--headless \
 --disable-viewport-rendering \
 --print-results \
 --backend-type $BACKEND_TYPE \
@@ -50,6 +52,7 @@ echo $PWD
 --num-gpus $NUM_GPUS \
 --resolution $RESOLUTION_4K \
 --benchmark-name $BENCHMARK_NAME_4K \
+--headless \
 --asset-count $ASSET_COUNT \
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
@@ -68,6 +71,7 @@ echo $PWD
 --resolution $RESOLUTION_4K \
 --benchmark-name $BENCHMARK_NAME_4K \
 --asset-count $ASSET_COUNT \
+--headless \
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
 --print-results \
@@ -85,6 +89,7 @@ echo $PWD
 --resolution $RESOLUTION_4K \
 --benchmark-name $BENCHMARK_NAME_4K \
 --asset-count $ASSET_COUNT \
+--headless \
 --annotators $ANNOTATORS \
 --disable-viewport-rendering \
 --print-results \
